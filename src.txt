@@ -1,0 +1,268 @@
+import React, { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
+
+export default function Portfolio() {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState('about')
+
+  const projects = [
+    {
+      title: 'Generative AI Content Creator',
+      desc: 'AI-powered content generation system using LLM prompts for blogs, scripts, and creative text. (Coming soon)',
+      tags: ['Generative AI', 'Prompt Engineering'],
+      color: 'from-purple-200 to-purple-400',
+    },
+    {
+      title: 'Data Analyst Dashboard & Insights',
+      desc: 'Interactive dashboard project with data cleaning, visualization, and insights generation. (Coming soon)',
+      tags: ['Data Analysis', 'Dashboards', 'Visualization'],
+      color: 'from-green-200 to-green-400',
+    },
+    {
+      title: 'UI/UX Portfolio + Motion Visuals',
+      desc: 'Creative UI/UX case studies, prototypes, and motion graphics using Figma & video tools. (Coming soon)',
+      tags: ['UI/UX', 'Figma', 'Video Editing'],
+      color: 'from-orange-200 to-orange-400',
+    },
+  ]
+
+  const skills = [
+    'Generative AI', 'Data Analyst', 'Video Editing', 'UI/UX Design',
+    'Python', 'HTML', 'CSS',
+    'SQL Server', 'MongoDB', 'Git', 'GitHub', 'Azure Basics', 'AWS Foundations',
+    'Data Structures', 'REST APIs'
+  ]
+
+  useEffect(() => {
+    function onKey(e) {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    function onResize() {
+      if (window.innerWidth >= 768) setMobileOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
+
+  const openSection = (id) => {
+    setActiveSection(id)
+    setMobileOpen(false)
+    setTimeout(() => {
+      const el = document.querySelector('#main-content')
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      else window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, 50)
+  }
+
+  return (
+    <>
+      <nav className="fixed w-full top-0 left-0 z-50 backdrop-blur-md bg-gradient-to-r from-white/60 to-white/40 border-b border-white/10">
+        <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-400 to-pink-300 flex items-center justify-center text-xl font-bold text-white shadow-lg">🤖</div>
+            <div>
+              <h1 className="text-lg md:text-xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-700 to-pink-500">SANDHYA NEELAM PORTFOLIO</h1>
+              <p className="text-xs text-gray-600">Building modern solutions with code</p>
+            </div>
+          </div>
+
+          {/* Desktop Menu */}
+          <ul className="hidden md:flex gap-6 text-sm text-gray-800 items-center">
+            <li><button onClick={() => openSection('about')} className={`transition ${activeSection==='about' ? 'text-indigo-600 font-medium' : 'hover:text-indigo-600'}`}>About</button></li>
+            <li><button onClick={() => openSection('skills')} className={`transition ${activeSection==='skills' ? 'text-pink-600 font-medium' : 'hover:text-pink-600'}`}>Skills</button></li>
+            <li><button onClick={() => openSection('projects')} className={`transition ${activeSection==='projects' ? 'text-teal-600 font-medium' : 'hover:text-teal-600'}`}>Projects</button></li>
+            <li><button onClick={() => openSection('contact')} className={`transition ${activeSection==='contact' ? 'text-yellow-600 font-medium' : 'hover:text-yellow-600'}`}>Contact</button></li>
+            <li><button onClick={() => openSection('resume')} className={`transition ${activeSection==='resume' ? 'text-purple-600 font-medium' : 'hover:text-purple-600'}`}>Resume</button></li>
+          </ul>
+
+          {/* Mobile Hamburger */}
+          <div className="md:hidden">
+            <button
+              aria-label="Open menu"
+              onClick={() => setMobileOpen((s) => !s)}
+              className="p-2 rounded-md border bg-white/80"
+            >
+              <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile slide-over */}
+        <div
+          id="mobile-menu"
+          className={`md:hidden fixed inset-0 bg-black/30 backdrop-blur-sm ${mobileOpen ? 'block' : 'hidden'}`}>
+          <div className="absolute right-0 top-0 w-64 h-full bg-white p-6">
+            <button className="mb-4" onClick={() => setMobileOpen(false)} aria-label="Close menu">Close ✕</button>
+            <nav className="flex flex-col gap-4 mt-6">
+              <button onClick={() => openSection('about')} className="text-gray-800 text-left">About</button>
+              <button onClick={() => openSection('skills')} className="text-gray-800 text-left">Skills</button>
+              <button onClick={() => openSection('projects')} className="text-gray-800 text-left">Projects</button>
+              <button onClick={() => openSection('contact')} className="text-gray-800 text-left">Contact</button>
+              <button onClick={() => openSection('resume')} className="text-gray-800 text-left">Resume</button>
+            </nav>
+          </div>
+        </div>
+      </nav>
+
+      <main id="main-content" className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-gray-100 text-gray-900 pt-24">
+        <section className="max-w-6xl mx-auto p-6">
+          <header className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-indigo-400 to-pink-300 flex items-center justify-center text-3xl font-bold text-white shadow-2xl">🤖</div>
+              <div>
+                <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900">SANDHYA NEELAM PORTFOLIO</h1>
+                <p className="text-base text-gray-600 mt-1">Building modern solutions with code</p>
+                <p className="text-sm text-gray-500 mt-1">Anantapur, Andhra Pradesh • +91 9059732781</p>
+              </div>
+            </div>
+
+          </header>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="mt-8"
+          >
+            {/* Render only the active section (no blank space) */}
+            {activeSection === 'about' && (
+              <div className="bg-gradient-to-r from-indigo-50 to-white p-6 rounded-2xl shadow-lg border border-indigo-100">
+                <h2 id="about" className="text-2xl font-bold text-indigo-700">About</h2>
+                <p className="mt-3 text-gray-700">I am an all-round Software Engineer (B.Tech CSE — AI & ML, 2025) with hands-on foundations in Python and practical exposure to full-stack development, cloud basics, and AI concepts. I build pragmatic, maintainable code and enjoy solving problems end-to-end — from API design to frontend UX. Currently focused on building production-ready projects to showcase across GitHub and my portfolio.</p>
+
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-600 uppercase">Quick Details</h3>
+                    <ul className="mt-2 text-sm text-gray-700 space-y-1">
+                      <li><strong>Graduation:</strong> May 2025 — Sri Venkateswara College of Engineering & Technology</li>
+                      <li><strong>GPA:</strong> 70%</li>
+                      <li><strong>Email:</strong> sandhya.neelam.jobs@gmail.com</li>
+                      <li><strong>LinkedIn:</strong> linkedin.com/in/neelam-sandhya-1236092b8</li>
+                    </ul>
+                  </div>
+                  <div className="flex flex-col gap-3">
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-green-50 to-green-100 border border-green-100">
+                      <h4 className="text-sm font-medium text-green-700">Availability</h4>
+                      <p className="text-sm text-gray-600">Open to full-time roles, off-campus drives, and early-career software positions.</p>
+                    </div>
+                    <div className="p-3 rounded-lg bg-gradient-to-r from-yellow-50 to-yellow-100 border border-yellow-100">
+                      <h4 className="text-sm font-medium text-yellow-700">Interests</h4>
+                      <p className="text-sm text-gray-600">Full-stack development, cloud integrations, AI/ML applications, and developer tools.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeSection === 'skills' && (
+              <aside id="skills" className="bg-gradient-to-r from-pink-50 to-white p-6 rounded-2xl shadow-lg border border-pink-100">
+                <h3 className="text-2xl font-bold text-pink-600">Skills</h3>
+                <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                  {skills.map((s, i) => (
+                    <span key={s} className={`px-3 py-2 rounded-full text-sm font-medium ${i%4===0? 'bg-indigo-100 text-indigo-700' : i%4===1? 'bg-pink-100 text-pink-700' : i%4===2? 'bg-teal-100 text-teal-700' : 'bg-yellow-100 text-yellow-700'}`}>{s}</span>
+                  ))}
+                </div>
+
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="p-4 rounded-lg bg-white/60 border border-gray-100">
+                    <h4 className="text-sm font-semibold">Tools & Platforms</h4>
+                    <p className="text-sm text-gray-600 mt-1">Git, GitHub, Visual Studio Code, IntelliJ</p>
+                  </div>
+                  <div className="p-4 rounded-lg bg-white/60 border border-gray-100">
+                    <h4 className="text-sm font-semibold">Cloud & DevOps</h4>
+                    <p className="text-sm text-gray-600 mt-1">Azure, AWS basics, CI/CD (GitHub Actions)</p>
+                  </div>
+                </div>
+              </aside>
+            )}
+
+            {activeSection === 'projects' && (
+              <div>
+                <h2 className="text-2xl font-bold text-teal-700">Selected Projects</h2>
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {projects.map((p) => (
+                    <motion.article key={p.title} whileHover={{ scale: 1.05, translateY: -4 }} transition={{ type: 'spring', stiffness: 200 }} className={`p-4 rounded-lg shadow-xl border border-white/40 hover:shadow-2xl hover:border-white/60 bg-gradient-to-br ${p.color} text-gray-900`}>
+                      <h3 className="font-semibold text-lg">{p.title}</h3>
+                      <p className="text-sm mt-2">{p.desc}</p>
+                      <div className="mt-3 flex flex-wrap gap-2">
+                        {p.tags.map((t) => <span key={t} className="text-xs px-2 py-1 bg-white/70 rounded-full font-medium">{t}</span>)}
+                      </div>
+                    </motion.article>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeSection === 'contact' && (
+              <section id="contact" className="bg-gradient-to-r from-yellow-50 to-white p-6 rounded-2xl shadow-lg border border-yellow-100">
+                <h2 className="text-2xl font-bold text-yellow-700">Contact</h2>
+                <p className="text-sm text-gray-700 mt-2">Prefer email? <a className="text-indigo-600" href="mailto:sandhya.neelam.jobs@gmail.com">sandhya.neelam.jobs@gmail.com</a></p>
+
+                <form className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3" onSubmit={(e)=>{e.preventDefault(); alert('Thanks! Please send email to sandhya.neelam.jobs@gmail.com') }}>
+                  <input required placeholder="Your name" className="p-2 border rounded" />
+                  <input required placeholder="Your email" className="p-2 border rounded" />
+                  <textarea required placeholder="Message" className="md:col-span-2 p-2 border rounded" rows={4}></textarea>
+                  <button type="submit" className="md:col-span-2 px-4 py-2 bg-gradient-to-r from-green-500 to-teal-400 text-white rounded">Send Message</button>
+                </form>
+
+              </section>
+            )}
+
+            {/* Resume section rendered like other sections */}
+            {activeSection === 'resume' && (
+              <section id="resume" className="max-w-6xl mx-auto p-6">
+                <div className="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                  <h2 className="text-2xl font-bold text-gray-900">Sandhya Neelam</h2>
+                  <p className="text-sm text-gray-600 mt-1">Anantapur, Andhra Pradesh • +91 9059732781 • sandhya.neelam.jobs@gmail.com</p>
+
+                  <h3 className="mt-4 text-lg font-semibold">Professional Summary</h3>
+                  <p className="text-sm text-gray-700">Detail-oriented and multi-skilled professional with strengths in Generative AI, Data Analysis, UI/UX Design, and Video Editing. Skilled in transforming data, ideas, and creative concepts into clean, modern, and user-friendly digital outputs. Strong understanding of AI-driven workflows, data visualization, prototyping, and visual communication.</p>
+
+                  <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-semibold">Technical Skills</h4>
+                      <ul className="text-sm text-gray-700 list-disc list-inside mt-2">
+                        <li>Generative AI, Data Analysis, Data Visualization, UI/UX Design</li>
+                        <li>Python, HTML, CSS, SQL Server, MongoDB</li>
+                        <li>Git, GitHub, Azure Basics, AWS Foundations, REST APIs</li>
+                      </ul>
+
+                      <h4 className="mt-4 text-sm font-semibold">Soft Skills</h4>
+                      <ul className="text-sm text-gray-700 list-disc list-inside mt-2">
+                        <li>Problem-solving, Creativity, Communication</li>
+                        <li>Attention to Detail, Adaptability, Teamwork</li>
+                        <li>Time Management, Critical Thinking</li>
+                      </ul>
+                    </div>
+
+                    <div>
+                      <h4 className="text-sm font-semibold">Projects</h4>
+                      <ul className="text-sm text-gray-700 list-disc list-inside mt-2">
+                        <li><strong>Generative AI Content Creator</strong> — AI-powered content generation system using LLM prompts for blogs, scripts, and creative text.</li>
+                        <li><strong>Data Analyst Dashboard & Insights</strong> — Interactive dashboard with data cleaning, visualization, and insights generation.</li>
+                        <li><strong>UI/UX Portfolio + Motion Visuals</strong> — UI/UX case studies, prototypes, and motion graphics using Figma and editing tools.</li>
+                      </ul>
+
+                      <h4 className="mt-4 text-sm font-semibold">Education</h4>
+                      <p className="text-sm text-gray-700 mt-2">B.Tech in Computer Science (AI & ML), 2025 — Sri Venkateswara College of Engineering & Technology</p>
+                    </div>
+                  </div>
+
+                  <h4 className="mt-4 text-sm font-semibold">Interests</h4>
+                  <p className="text-sm text-gray-700">Creative Designing, Video Editing, Motion Graphics, AI Tools & Automation, Data Storytelling, UI/UX Trends</p>
+                </div>
+              </section>
+            )}
+
+          </motion.div>
+
+          <footer className="mt-8 text-center text-sm text-gray-500">© {new Date().getFullYear()} Sandhya Neelam — Built with ♥</footer>
+        </section>
+      </main>
+    </>
+  )
+}
